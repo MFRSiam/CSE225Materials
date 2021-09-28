@@ -1,6 +1,8 @@
 #pragma once
 
 #include <iostream>
+#include <stack>
+#include <queue>
 
 /*! @brif This Namespace Implements Binary Search Tree */
 namespace BinaryTree {
@@ -386,3 +388,272 @@ namespace List {
 	};
 }
 
+namespace Graphs {
+	class Graph
+	{
+	private:
+		int numVertices;
+		int maxVertices;
+		std::string* vertices;
+		int** edges;
+		bool* visited;
+
+	public:
+		Graph()
+		{
+			numVertices = 0;
+			maxVertices = 50;
+			vertices = new std::string[50];
+			edges = new int* [50];
+			for (int i = 0; i < 50; i++)
+			{
+				edges[i] = new int[50];
+			}
+			visited = new bool[50];
+		}
+
+		Graph(int maxV)
+		{
+			numVertices = 0;
+			maxVertices = maxV;
+			vertices = new std::string[maxV];
+			edges = new int* [maxV];
+			for (int i = 0; i < maxV; i++)
+			{
+				edges[i] = new int[maxV];
+				for (int j = 0; j < maxV; j++)
+					edges[i][j] = 0;
+			}
+			visited = new bool[maxV];
+		}
+
+		~Graph()
+		{
+			delete[] vertices;
+			delete[] visited;
+			for (int i = 0; i < maxVertices; i++)
+				delete[] edges[i];
+			delete[] edges;
+		}
+
+		void makeEmpty()
+		{
+			numVertices = 0;
+		}
+
+		bool isEmpty()
+		{
+			if (numVertices = 0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		bool isFull()
+		{
+			if (numVertices = maxVertices)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		void addVertex(std::string vertex)
+		{
+			vertices[numVertices] = vertex;
+			for (int index = 0; index < numVertices; index++)
+			{
+				edges[numVertices][index] = 0;
+				edges[index][numVertices] = 0;
+			}
+			numVertices++;
+		}
+
+		void addEdge(std::string fromVertex, std::string toVertex, int weight)
+		{
+			int row = indexIs(vertices, fromVertex);
+			int col = indexIs(vertices, toVertex);
+			edges[row][col] = weight;
+		}
+
+		int weightIs(std::string fromVertex, std::string toVertex)
+		{
+			int row = indexIs(vertices, fromVertex);
+			int col = indexIs(vertices, toVertex);
+			return edges[row][col];
+		}
+
+		int indexIs(std::string* vertices, std::string vertex)
+		{
+			for (int i = 0; i < maxVertices; i++)
+			{
+				if (vertex == vertices[i])
+				{
+					return i;
+				}
+			}
+			return -1;
+		}
+
+		void getAdjacentVertices(std::string vertex, std::queue<std::string>& adjVertices)
+		{
+			int fromIndex;
+			int toIndex;
+			fromIndex = indexIs(vertices, vertex);
+			for (toIndex = 0; toIndex < numVertices; toIndex++)
+			{
+				if (edges[fromIndex][toIndex] != 0)
+				{
+					adjVertices.push(vertices[toIndex]);
+					// in C++ STL Queue, push = enqueue
+					// and pop = dequeue
+				}
+			}
+		}
+
+		void clearVisited()
+		{
+			for (int i = 0; i < maxVertices; i++)
+			{
+				visited[i] = false;
+			}
+		}
+
+		void markVertex(std::string vertex)
+		{
+			visited[indexIs(vertices, vertex)] = true;
+		}
+
+		bool isMarked(std::string vertex)
+		{
+			return visited[indexIs(vertices, vertex)];
+		}
+
+		void printGraph()
+		{
+			for (int i = 0; i < numVertices; i++)
+			{
+				std::cout << vertices[i];
+				std::cout << " : ";
+				for (int j = 0; j < numVertices; j++)
+				{
+					if (edges[i][j] != 0)
+					{
+						std::cout << vertices[j];
+						std::cout << ",";
+						//cout << "(" <<edges[i][j] << "), ";
+					}
+				}
+				std::cout << "\b ";
+				std::cout << std::endl;
+			}
+		}
+	};
+
+	void depthFirstSearch(Graph graph, std::string startVertex, std::string endVertex)
+	{
+		std::stack<std::string> vStack;
+		std::queue<std::string> adjacentVertices;
+		bool found = false;
+		std::string vertex;
+		std::string item;
+		graph.clearVisited();
+		vStack.push(startVertex);
+		std::cout << "Visited nodes: ";
+		do
+		{
+			vertex = vStack.top();
+			vStack.pop();
+			if (vertex == endVertex)
+			{
+				std::cout << vertex;
+				found = true;
+			}
+			else
+			{
+				if (!graph.isMarked(vertex))
+				{
+					graph.markVertex(vertex);
+					std::cout << vertex << " ";
+					graph.getAdjacentVertices(vertex, adjacentVertices);
+					while (!adjacentVertices.empty())
+					{
+						item = adjacentVertices.front();
+						adjacentVertices.pop();
+						if (!graph.isMarked(item))
+							vStack.push(item);
+					}
+				}
+			}
+		} while (!vStack.empty() && !found);
+
+		if (!found)
+			std::cout << "\nPath not found." << std::endl;
+	}
+
+	void breadthFirstSearch(Graph graph, std::string startVertex, std::string endVertex)
+	{
+		std::queue<std::string> mainQueue;
+		std::queue<std::string> adjacentVertices;
+		bool found = false;
+		std::string vertex;
+		std::string item;
+		graph.clearVisited();
+		mainQueue.push(startVertex);
+		std::cout << "Visited nodes: ";
+		do
+		{
+			vertex = mainQueue.front();
+			mainQueue.pop();
+			if (vertex == endVertex)
+			{
+				std::cout << vertex;
+				found = true;
+			}
+			else
+			{
+				if (!graph.isMarked(vertex))
+				{
+					graph.markVertex(vertex);
+					std::cout << vertex << " ";
+					graph.getAdjacentVertices(vertex, adjacentVertices);
+					while (!adjacentVertices.empty())
+					{
+						item = adjacentVertices.front();
+						adjacentVertices.pop();
+						if (!graph.isMarked(item))
+							mainQueue.push(item);
+					}
+				}
+			}
+		} while (!mainQueue.empty() && !found);
+
+		if (!found)
+			std::cout << "\nPath not found." << std::endl;
+	}
+
+	void checkadjacent(Graph& graph, std::string x)
+	{
+
+		std::queue<std::string> q1;
+		graph.getAdjacentVertices(x, q1);
+		if (q1.size() == 0)
+		{
+			return;
+		}
+		for (int i = 0; i <= (int)q1.size(); i++)
+		{
+			std::cout << q1.front() << " ";
+			q1.pop();
+		}
+		std::cout << std::endl;
+	}
+
+}
