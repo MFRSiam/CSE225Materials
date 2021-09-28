@@ -1,9 +1,9 @@
-#include <fmt/ostream.h>
+#include <iostream>
 #include "../include/Implementation.hpp"
 #include <random>
 
 int main(void) {
-	fmt::print("Hello World \n");
+	std::cout << "Hello " << std::endl;
 	BinaryTree::BST B1;
 	int rand;
 	for (int i = 0; i < 100; i++) {
