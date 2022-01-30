@@ -4,7 +4,7 @@
 
 This Repo Has 4 Folders. The `/src/` Is For Testing Different Implemented Data Structure. The `/include/` Has Implementation In it, as many of the data structure uses a template i found this  to be in a header file much more convenient instead of compiling it separately then linking it or just including the .cpp file. Most of the Data Structure's are implemented Inside a Namespace.
 
-![](.\assets\2022-01-30-12-12-39-image.png)
+![](https://imgur.com/a/r6xU45y)
 
 As You can See Most Of Them Are Self Explanatory. But in Order To use them You need a to use its namespace 1st . Example For a Random Numbers in a BST.
 
