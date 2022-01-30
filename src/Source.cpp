@@ -10,7 +10,6 @@ int main(void) {
 		rand = std::rand() % 899 + 1;
 		B1.insertNode(rand);
 	}
-
 	B1.printTree();
 	return EXIT_SUCCESS;
 }

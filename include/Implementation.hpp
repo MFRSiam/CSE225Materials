@@ -4,9 +4,9 @@
 #include <stack>
 #include <queue>
 
-/*! @brif This Namespace Implements Binary Search Tree */
+/*! @brief This Namespace Implements Binary Search Tree */
 namespace BinaryTree {
-	/* @brif Each Node Of the Tree
+	/* @brief Each Node Of the Tree
 		@param Value It Creats Node With the given Value with The next Pointer as a nullptr*/
 	struct Node {
 		int value;
@@ -15,10 +15,16 @@ namespace BinaryTree {
 		Node() :value(0),left(nullptr),right(nullptr){}
 		Node(int i):value(i),left(nullptr), right(nullptr){}
 	};
-
+	/*! @brief This Class Implements The Binary Search Tree Data Structure
+	*	@param This Class Requires No Parameters
+	*/
 	class BST {
 	private:
+		/*! @brief This Is The Head Node Variable To Keep Track Of the head node */ 
 		Node* Head_Node;
+		/*! @brief This is the private Funtion To insert a new node in Its Place. The 1st recursive call will have an null nod then will create a node which will make the 2nd recursive calls and onwards have a node reference pointer.
+		*	@param Node This Requires a Node and a Number
+		*/
 		void p_Insert(Node*& Nod, int number) {
 			if (Nod == nullptr) {
 				Nod = new Node;
@@ -176,7 +182,7 @@ namespace BinaryTree {
 	};
 }
 
-/*! @brif This Namespace Implements Stack Data Type*/
+/*! @brief This Namespace Implements Stack Data Type*/
 namespace Stacks {
 	class Stack
 	{
@@ -222,7 +228,7 @@ namespace Stacks {
 	};
 }
 
-/*! @brif This Namespace Implements Queue Data Type*/
+/*! @brief This Namespace Implements Queue Data Type*/
 namespace Queue {
 	class Que
 	{
@@ -271,7 +277,7 @@ namespace Queue {
 	};
 }
 
-/*! @brif This Namespace Implements Different Lists*/
+/*! @brief This Namespace Implements Different Lists*/
 namespace List {
 	struct Node {
 	public:
@@ -388,6 +394,7 @@ namespace List {
 	};
 }
 
+/*! @brief This Namespace Implements Different Graphs */
 namespace Graphs {
 	class Graph
 	{
